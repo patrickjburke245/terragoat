@@ -1,0 +1,15 @@
+variables:
+- name: PROJECT_KEY # Set the desired project to run the cli scanning with
+  value: default
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - script: |
+      apt update && apt install -y curl
+      curl -sfL 'https://raw.githubusercontent.com/orcasecurity/orca-cli/main/install.sh' | bash #download installation script
+      orca-cli -p "${PROJECT_KEY}" secrets scan --path "${PWD}"  # Run Orca CLI scan against your code
+    displayName: Orca Security Secrets Scan
+    env:
+     ORCA_SECURITY_API_TOKEN: aHR0cHM6Ly9hcHAudXMub3JjYXNlY3VyaXR5LmlvfHxHUFF4SXNaTERNN1NlNEw5N1lEZGJuVkN1TjZHajNZYg==
